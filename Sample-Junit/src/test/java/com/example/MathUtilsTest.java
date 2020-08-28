@@ -3,6 +3,8 @@ package com.example;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 
 //import static org.junit.jupiter.api.Assertions.*;
@@ -10,12 +12,23 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 class MathUtilsTest {
-	
+
 	MathUtils mathUtils;
-	
+
+	@BeforeAll
+	static void beforeAllInit() {// methods annotated with beforeAll need to be static because they are run
+									// before the instance of this class is created
+		System.out.println("This needs to run before all");
+	}
+
 	@BeforeEach
 	void init() {
 		mathUtils = new MathUtils();
+	}
+
+	@AfterEach
+	void cleanup() {
+		System.out.println("Cleaning up..");
 	}
 
 	@Test
