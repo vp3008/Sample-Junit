@@ -11,6 +11,14 @@
 	 </properties>
   
   <dependencies>
+   
+  		<dependency>
+            <groupId>org.junit.platform</groupId>
+            <artifactId>junit-platform-commons</artifactId>
+            <version>1.5.2</version>
+            <scope>test</scope>
+        </dependency>
+  
 		  <!-- https://mvnrepository.com/artifact/org.junit.jupiter/junit-jupiter-engine -->
 		<dependency>
 		    <groupId>org.junit.jupiter</groupId>
