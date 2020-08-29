@@ -3,6 +3,7 @@ package com.example;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.fail;
+import static org.junit.jupiter.api.Assumptions.assumeTrue;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -42,7 +43,22 @@ import org.junit.jupiter.api.Test;
 	}
 
 	@Test
+	/*
+	 * Conditional annotations. Only runs when condition satisfied.
+	 * 
+	 * @EnabledForJreRange() -- only runs in provided JRE range, disabled otherwise
+	 * 
+	 * @EnabledOnOs(OS.WINDOWS)// only runs on specified OS, disabled otherwise
+	 * 
+	 * @EnabledIfEnvironmentVariable()
+	 * 
+	 * @EnabledIfSystemProperty
+	 */
 	void testDivide() {
+
+		boolean isServerUp = false;
+
+		assumeTrue(isServerUp);// Will only execute the test the server is up
 		assertThrows(ArithmeticException.class, () -> mathUtils.divide(1, 0), "Divide by 0 should throw");// fails when
 																											// the wrong
 																											// exception
@@ -58,9 +74,9 @@ import org.junit.jupiter.api.Test;
 	void testComputeCircleRadius() {
 		assertEquals(314.1592653589793, mathUtils.computeCircleArea(10), "Should return right circle area");
 	}
-	
+
 	@Test
-	@Disabled//disables this test. skipped during execution
+	@Disabled // disables this test. skipped during execution
 	@DisplayName("TDD method. Should not run")
 	void testDisabled() {
 		fail("This test should be disabled");
