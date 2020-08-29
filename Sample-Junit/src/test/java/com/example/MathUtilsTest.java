@@ -12,7 +12,11 @@ import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.RepeatedTest;
+import org.junit.jupiter.api.RepetitionInfo;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInfo;
+import org.junit.jupiter.api.TestReporter;
 
 /*@TestInstance(Lifecycle.PER_CLASS) // Creates only 1 instance per class unlike the default way where a new instance
 									// is created before calling each test method. In this case we can avoid making
@@ -21,6 +25,9 @@ import org.junit.jupiter.api.Test;
 
 	MathUtils mathUtils;
 
+	TestInfo testInfo;// info about the test
+	TestReporter testReporter;// provides access to console logs
+
 	/*
 	 * @BeforeAll static void beforeAllInit() {// methods annotated with beforeAll
 	 * need to be static because they are run // before the instance of this class
@@ -28,7 +35,10 @@ import org.junit.jupiter.api.Test;
 	 */
 
 	@BeforeEach
-	void init() {
+	void init(TestInfo testInfo, TestReporter testReporter) {
+		this.testInfo = testInfo;
+		this.testReporter = testReporter;
+		testReporter.publishEntry("Running " + testInfo.getDisplayName() + " with tag names " + testInfo.getTags());
 		mathUtils = new MathUtils();
 	}
 
@@ -38,6 +48,7 @@ import org.junit.jupiter.api.Test;
 	}
 
 	@Nested
+	@Tag("Math")
 	@DisplayName("Testing addition")
 	class AddTest {// only passes if all of the test cases contained within are passed
 		@Test
@@ -82,6 +93,8 @@ import org.junit.jupiter.api.Test;
 	 * 
 	 * @EnabledIfSystemProperty
 	 */
+	@Tag("Math")
+
 	void testDivide() {
 
 		boolean isServerUp = false;
@@ -99,16 +112,29 @@ import org.junit.jupiter.api.Test;
 	}
 
 	@Test
+	@Tag("Math")
+
 	@DisplayName("Multiply method")
 	void testMultiply() {
+
+		/*
+		 * System.out.println("Running " + testInfo.getDisplayName() +
+		 * " with tag names " + testInfo.getTags());// will // print // to // console
+		 */
+		testReporter.publishEntry("Running " + testInfo.getDisplayName() + " with tag names " + testInfo.getTags());
 		// assertEquals(4, mathUtils.multiply(2, 2), "Should return the right product");
 		assertAll(// runs all of the below cases, if any one fails, the test fails
 				() -> assertEquals(4, mathUtils.multiply(2, 2)), () -> assertEquals(0, mathUtils.multiply(2, 0)),
 				() -> assertEquals(-2, mathUtils.multiply(2, -1)), () -> assertEquals(10, mathUtils.multiply(-2, -5)));
 	}
 
-	@RepeatedTest(3)//repeats the test 3 times
-	void testComputeCircleRadius() {
+	@RepeatedTest(3) // repeats the test 3 times
+	@Tag("Cicle")
+	void testComputeCircleRadius(RepetitionInfo repetitionInfo) {
+		/*
+		 * repetitionInfo.getCurrentRepetition();
+		 * repetitionInfo.getTotalRepetitions();// get information about repetitions
+		 */
 		assertEquals(314.1592653589793, mathUtils.computeCircleArea(10), "Should return right circle area");
 	}
 
