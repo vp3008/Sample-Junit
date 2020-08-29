@@ -38,12 +38,27 @@ import org.junit.jupiter.api.Test;
 
 	@Nested
 	@DisplayName("Testing addition")
-	class AddTest {//only passes if all of the test cases contained within are passed
+	class AddTest {// only passes if all of the test cases contained within are passed
 		@Test
 		@DisplayName("Testing positive addition")
 		void testPositiveAdd() {
 			int expected = 5;
-			assertEquals(expected, mathUtils.add(3, 2), "Return sum of positive numbers");
+			int actual = mathUtils.add(3, 2);
+			assertEquals(expected, actual, () -> "Should return " + expected + " and returned " + actual);// passing a
+																											// supplier
+																											// here
+																											// makes it
+																											// lazy
+																											// assert
+																											// message
+																											// in case
+																											// our
+																											// message
+																											// needs to
+																											// perform
+																											// heavy
+																											// string
+																											// calculations
 		}
 
 		@Test
