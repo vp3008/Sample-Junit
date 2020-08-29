@@ -11,6 +11,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
+import org.junit.jupiter.api.RepeatedTest;
 import org.junit.jupiter.api.Test;
 
 /*@TestInstance(Lifecycle.PER_CLASS) // Creates only 1 instance per class unlike the default way where a new instance
@@ -106,7 +107,7 @@ import org.junit.jupiter.api.Test;
 				() -> assertEquals(-2, mathUtils.multiply(2, -1)), () -> assertEquals(10, mathUtils.multiply(-2, -5)));
 	}
 
-	@Test
+	@RepeatedTest(3)//repeats the test 3 times
 	void testComputeCircleRadius() {
 		assertEquals(314.1592653589793, mathUtils.computeCircleArea(10), "Should return right circle area");
 	}
