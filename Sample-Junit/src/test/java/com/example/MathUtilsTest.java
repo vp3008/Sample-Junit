@@ -1,5 +1,6 @@
 package com.example;
 
+import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.fail;
@@ -9,6 +10,7 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
 /*@TestInstance(Lifecycle.PER_CLASS) // Creates only 1 instance per class unlike the default way where a new instance
@@ -34,12 +36,22 @@ import org.junit.jupiter.api.Test;
 		System.out.println("Cleaning up..");
 	}
 
-	@Test
-	@DisplayName("Testing add method")
-	void testAdd() {
-		int expected = 5;
-		int actual = mathUtils.add(3, 2);
-		assertEquals(expected, actual, "The add method should add 2 numbers");
+	@Nested
+	@DisplayName("Testing addition")
+	class AddTest {//only passes if all of the test cases contained within are passed
+		@Test
+		@DisplayName("Testing positive addition")
+		void testPositiveAdd() {
+			int expected = 5;
+			assertEquals(expected, mathUtils.add(3, 2), "Return sum of positive numbers");
+		}
+
+		@Test
+		@DisplayName("Testing negative addition")
+		void testNegativeAdd() {
+			int expected = -5;
+			assertEquals(expected, mathUtils.add(-3, -2), "Return sum of negative numbers");
+		}
 	}
 
 	@Test
@@ -58,7 +70,7 @@ import org.junit.jupiter.api.Test;
 
 		boolean isServerUp = false;
 
-		assumeTrue(isServerUp);// Will only execute the test the server is up
+		assumeTrue(isServerUp);// Will only execute the test if the server is up
 		assertThrows(ArithmeticException.class, () -> mathUtils.divide(1, 0), "Divide by 0 should throw");// fails when
 																											// the wrong
 																											// exception
@@ -68,6 +80,15 @@ import org.junit.jupiter.api.Test;
 																											// there is
 																											// no
 																											// exception
+	}
+
+	@Test
+	@DisplayName("Multiply method")
+	void testMultiply() {
+		// assertEquals(4, mathUtils.multiply(2, 2), "Should return the right product");
+		assertAll(// runs all of the below cases, if any one fails, the test fails
+				() -> assertEquals(4, mathUtils.multiply(2, 2)), () -> assertEquals(0, mathUtils.multiply(2, 0)),
+				() -> assertEquals(-2, mathUtils.multiply(2, -1)), () -> assertEquals(10, mathUtils.multiply(-2, -5)));
 	}
 
 	@Test
